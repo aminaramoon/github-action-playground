@@ -1,0 +1,29 @@
+name: build
+
+on:
+  push:
+    branches:
+      - main
+
+env:
+  SCCACHE_GHA_ENABLED: true
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false  # Optional: Don't cancel other jobs if one fails (good for sanitizers)
+      matrix:
+        preset: [dev-asan, dev-tsan]
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v6.0.0
+      - name: Set up Pixi
+        uses: prefix-dev/setup-pixi@v0.9.3
+        with:
+          pixi-version: v0.59.0
+          activate-environment: true
+      - name: Build project (${{ matrix.preset }})
+        run: cmake --preset ${{ matrix.preset }} && cmake --build --preset ${{ matrix.preset }}
+      - name: Run tests (${{ matrix.preset }})
+        run: ctest --preset ${{ matrix.preset }}
