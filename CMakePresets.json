@@ -1,0 +1,63 @@
+{
+    "version": 6,
+    "cmakeMinimumRequired": {
+        "major": 4,
+        "minor": 1,
+        "patch": 0
+    },
+    "configurePresets": [
+        {
+            "name": "base",
+            "hidden": true,
+            "generator": "Ninja",
+            "binaryDir": "${sourceDir}/build/${presetName}",
+            "cacheVariables": {
+                "CMAKE_EXPORT_COMPILE_COMMANDS": "ON"
+            }
+        },
+        {
+            "name": "dev-asan",
+            "displayName": "Debug + ASan/UBSan",
+            "inherits": "base",
+            "cacheVariables": {
+                "CMAKE_BUILD_TYPE": "Debug",
+                "SANITIZERS": "address"
+            }
+        },
+        {
+            "name": "dev-tsan",
+            "displayName": "Debug + ThreadSanitizer",
+            "inherits": "base",
+            "cacheVariables": {
+                "CMAKE_BUILD_TYPE": "RelWithDebInfo",
+                "SANITIZERS": "thread"
+            }
+        }
+    ],
+    "buildPresets": [
+        {
+            "name": "dev-asan",
+            "configurePreset": "dev-asan"
+        },
+        {
+            "name": "dev-tsan",
+            "configurePreset": "dev-tsan"
+        }
+    ],
+    "testPresets": [
+        {
+            "name": "dev-asan",
+            "configurePreset": "dev-asan",
+            "output": {
+                "outputOnFailure": true
+            }
+        },
+        {
+            "name": "dev-tsan",
+            "configurePreset": "dev-tsan",
+            "output": {
+                "outputOnFailure": true
+            }
+        }
+    ]
+}
