@@ -13,6 +13,4 @@ include(SanitizerSettings)
 find_package(Catch2 3 REQUIRED)
 find_package(Threads REQUIRED)
 
-
 add_subdirectory(cpp)
-
