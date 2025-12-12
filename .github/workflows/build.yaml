@@ -25,6 +25,8 @@ jobs:
         with:
           pixi-version: v0.59.0
           activate-environment: true
+      - name: Run pre-commit
+        uses: pre-commit/action@v3.0.1
       - name: Set up sccache
         uses: mozilla-actions/sccache-action@v0.0.9
       - name: Build project
