@@ -16,6 +16,14 @@
             }
         },
         {
+            "name": "ci",
+            "generator": "Ninja",
+            "binaryDir": "${sourceDir}/build/${presetName}",
+            "cacheVariables": {
+                "CMAKE_EXPORT_COMPILE_COMMANDS": "ON"
+            }
+        },
+        {
             "name": "dev-asan",
             "displayName": "Debug + ASan/UBSan",
             "inherits": "base",
@@ -36,6 +44,10 @@
     ],
     "buildPresets": [
         {
+            "name": "ci",
+            "configurePreset": "ci"
+        },
+        {
             "name": "dev-asan",
             "configurePreset": "dev-asan"
         },
@@ -45,6 +57,13 @@
         }
     ],
     "testPresets": [
+        {
+            "name": "ci",
+            "configurePreset": "ci",
+            "output": {
+                "outputOnFailure": true
+            }
+        },
         {
             "name": "dev-asan",
             "configurePreset": "dev-asan",
